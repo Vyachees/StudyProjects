@@ -1,87 +1,57 @@
 public class Main {
     public static void main(String[] args) {
-        IntegerPair integerPair1=new IntegerPair();
-        integerPair1.setFirst(1);
-        integerPair1.setSecond(2);
 
-        IntegerPair integerPair2= new IntegerPair();
-        integerPair2.setFirst(300);
-        integerPair2.setSecond(1212);
+        ListImpl<Integer> myList= new ListImpl<>();
 
-        IntegerPair integerPair3= new IntegerPair();
-        integerPair3.setFirst(Integer.MAX_VALUE);
-        integerPair3.setSecond(Integer.MAX_VALUE);
+        myList.add(1);
+        myList.add(5);
+        myList.add(10);
 
-        System.out.println(Integer.MAX_VALUE);
-        System.out.println(Integer.MAX_VALUE +Integer.MAX_VALUE*32);
-        // System.out.println(integerPair1.compareTo(integerPair2));
-        System.out.println(integerPair3.hashCode());
+        myList.insert(1,2);
+        myList.insert(2,3);
+
+        myList.remove(1);
+
+        System.out.println(myList);
 
 
-        System.out.println(integerPair2.compareTo(integerPair3));
+        ListImpl<String> myStrList = new ListImpl<>();
+
+        myStrList.add("aa");
+        myStrList.add("cc");
+        myStrList.add("ee");
+
+        myStrList.insert(1,"bb");
+
+        //исправить удаление элементов когда - длина листа равна длине массива
+
+      //  myStrList.remove("cc");
+        //myStrList.insert(3,"dd");
+
+        System.out.println(myStrList);
+
+        ListIteratorCopyArrImpl<String> listIteratorCopyArr = new ListIteratorCopyArrImpl<>(myStrList);
+
+        System.out.println(listIteratorCopyArr.hasNext());
+        System.out.println(listIteratorCopyArr.next());
+        System.out.println(listIteratorCopyArr.next());
+        System.out.println(listIteratorCopyArr.next());
+        System.out.println(listIteratorCopyArr.next());
+        System.out.println(listIteratorCopyArr.hasNext());
+        System.out.println("==========================");
+
+
+        //ListImpl.ListIteratorInnerClassImpl listIteratorInnerClass ;
+
+        ListImpl<String>.ListIteratorInnerClassImpl listIteratorInnerClass = myStrList.new ListIteratorInnerClassImpl();
+
+
+        System.out.println(listIteratorInnerClass.hasNext());
+        System.out.println(listIteratorInnerClass.next());
+        System.out.println(listIteratorInnerClass.next());
+        System.out.println(listIteratorInnerClass.next());
+        System.out.println(listIteratorInnerClass.next());
+        System.out.println(listIteratorInnerClass.hasNext());
 
     }
-
-    public static class IntegerPair implements Comparable<IntegerPair> {
-
-        private int first;
-
-        private int second;
-
-        public int getFirst() {
-            return first;
-        }
-
-        public void setFirst(int first) {
-            // if(first>)
-            this.first = first;
-        }
-
-        public int getSecond() {
-            return second;
-        }
-
-        public void setSecond(int second) {
-            this.second = second;
-        }
-
-        public  boolean equals(IntegerPair integerPair){
-            return this.first == integerPair.getFirst() && this.second == integerPair.getSecond();
-        }
-
-        @Override
-        public int hashCode() {
-
-            if(first>first+31*second || second>first+31*second){
-
-                System.out.println("overflow sum");
-                return 0;
-            }
-            else
-                return first+31*second;
-            // return integerPair.getFirst() + 31 * integerPair.getSecond();
-        }
-
-
-        @Override
-        public int compareTo(IntegerPair o) {
-
-            if(first>first+second || second>first+second
-                    || o.getFirst()> o.getFirst()+o.getSecond()
-                    ||o.getSecond()>o.getFirst()+o.getSecond()
-            )
-            {
-
-                System.out.println("overflow sum");
-                return 0;
-            }
-            return Integer.compare(this.first+this.second, o.getFirst()+o.getSecond());
-        }
-
-
-        // Write your code here.
-    }
-
-
-
 }
