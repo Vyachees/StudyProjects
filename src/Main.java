@@ -1,57 +1,48 @@
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.text.ParseException;
+import java.util.List;
+
 public class Main {
-    public static void main(String[] args) {
+    public static void main(String[] args) throws ParseException {
 
-        ListImpl<Integer> myList= new ListImpl<>();
+        Path readFilePath = Paths.get("src", "resources", "clients_list.txt");
+        Path writeFilePath = Paths.get("src", "resources", "result.txt");
 
-        myList.add(1);
-        myList.add(5);
-        myList.add(10);
+        if(args.length!=0 && args[0]!=null && args[1]!=null){
+            readFilePath= Paths.get(args[0]);
+            writeFilePath= Paths.get(args[1]);
+        }
 
-        myList.insert(1,2);
-        myList.insert(2,3);
+        int camelTag=0;
+            if (args.length==3 && args[2].equals("camelTag")) {
+                camelTag = 1;
+            }
 
-        myList.remove(1);
+        String newCongrats="";
+        if (args.length==3 && !args[2].equals("camelTag")) {
+            newCongrats=args[2];
+        }
 
-        System.out.println(myList);
+        FileManageImpl fileManage = new FileManageImpl(newCongrats);
 
+        List<String> readedFile= fileManage.readFromFile(readFilePath);
 
-        ListImpl<String> myStrList = new ListImpl<>();
+        for(String str : readedFile){
+            System.out.println(str);
+        }
 
-        myStrList.add("aa");
-        myStrList.add("cc");
-        myStrList.add("ee");
-
-        myStrList.insert(1,"bb");
-
-        //исправить удаление элементов когда - длина листа равна длине массива
-
-      //  myStrList.remove("cc");
-        //myStrList.insert(3,"dd");
-
-        System.out.println(myStrList);
-
-        ListIteratorCopyArrImpl<String> listIteratorCopyArr = new ListIteratorCopyArrImpl<>(myStrList);
-
-        System.out.println(listIteratorCopyArr.hasNext());
-        System.out.println(listIteratorCopyArr.next());
-        System.out.println(listIteratorCopyArr.next());
-        System.out.println(listIteratorCopyArr.next());
-        System.out.println(listIteratorCopyArr.next());
-        System.out.println(listIteratorCopyArr.hasNext());
-        System.out.println("==========================");
+        System.out.println("-----------");
 
 
-        //ListImpl.ListIteratorInnerClassImpl listIteratorInnerClass ;
+        fileManage.createUsers(readedFile,camelTag);
+        List<User> users = fileManage.createUsers(readedFile,camelTag);
 
-        ListImpl<String>.ListIteratorInnerClassImpl listIteratorInnerClass = myStrList.new ListIteratorInnerClassImpl();
+        List <String> emails= fileManage.createEmails(users);
+        System.out.printf(emails.toString());
 
+        fileManage.writeToFile(emails,writeFilePath );
 
-        System.out.println(listIteratorInnerClass.hasNext());
-        System.out.println(listIteratorInnerClass.next());
-        System.out.println(listIteratorInnerClass.next());
-        System.out.println(listIteratorInnerClass.next());
-        System.out.println(listIteratorInnerClass.next());
-        System.out.println(listIteratorInnerClass.hasNext());
 
     }
 }
