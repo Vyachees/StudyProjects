@@ -19,8 +19,6 @@ public interface List <T> {
      */
     int size();
 
-    //void remove(T object);
-
     default void remove(T object){
         throw new UnsupportedOperationException("Remove not impemented");
     }

@@ -3,9 +3,9 @@ import java.util.NoSuchElementException;
 
 public class ListImpl <T> implements List<T> {
 
-    Object[] array = new Object[1];
+    private Object[] array = new Object[1];
 
-    int size=0;
+    private int size=0;
 
     @Override
     public String toString() {
