@@ -1,7 +1,13 @@
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import java.util.List;
 import java.util.function.Supplier;
 
+
 public class TestApp {
+    private static Logger logger = LoggerFactory.getLogger(TestApp.class);
 
     private final Supplier<BooksManager> managerSupplier;
     private Client client1;
@@ -339,10 +345,13 @@ public class TestApp {
         System.out.println("End testRentedBooksCount2()");
     }
 
+
     public static void main(String[] args) {
-        TestApp testApp = new TestApp(BooksManagerImpl::new);
+        logger.info("App started");
+      //  log.info("asdasdasd");
+      //  TestApp testApp = new TestApp(BooksManagerImpl::new);
         // testApp.runTests();
-        testApp.testSingleBookAddition();//ok
+        /*testApp.testSingleBookAddition();//ok
         testApp.testBooksList();//ok
         testApp.testBooksRentAll();//ok
         testApp.testMultiBookAddition();//ok
@@ -359,7 +368,8 @@ public class TestApp {
         testApp.testRentBooksByCount();//ok
         testApp.testRentedBooksCount();//ok
         testApp.testRentedBooksCount2();//ok
-        testApp.testRentChampions2();//ok
-
+        testApp.testRentChampions2();//ok*/
+        logger.error("My error!");
+        logger.info("App ended");
     }
 }
