@@ -1,3 +1,5 @@
+package Books;
+
 import java.util.Collection;
 import java.util.List;
 import java.util.Map;
@@ -41,7 +43,7 @@ public interface BooksManager {
      * @return - true, если получилось выдать, false - не полупилось
      * (нет книг в хранилище, либо книгу уже была взята этим читателем)
      */
-    boolean rentBook(Client client, BookDescription book);
+    boolean rentBook(Client client, BookDescription book) throws InterruptedException;
 
     /**
      * Возвращает книгу в библиотеку, увеличивая количество в хранилище на 1.

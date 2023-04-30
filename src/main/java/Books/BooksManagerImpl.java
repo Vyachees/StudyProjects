@@ -1,9 +1,13 @@
+package Books;
+
 import java.util.*;
 
 public class BooksManagerImpl implements BooksManager {
     private final Map<BookDescription,Integer> library = new HashMap<>();
     private final Map<Client,Set<BookDescription>> clientsRentedBooks = new HashMap<>();
     private final Map<BookDescription, Set<Client>> rentedBooksClients= new HashMap<>();
+
+
 
     @Override
     public int addBook(BookDescription bookDescription) {
@@ -30,7 +34,17 @@ public class BooksManagerImpl implements BooksManager {
     }
 
     @Override
-    public boolean rentBook(Client client, BookDescription book) {
+    public synchronized boolean rentBook(Client client, BookDescription book) throws InterruptedException {
+
+        while (library.containsKey(book) && library.get(book)==0){
+            try {
+                wait(1000);
+                System.out.println("Im waiting for returning book "+book.getTitle());
+                System.out.println(getRentedBooks());
+            }
+            catch (InterruptedException e){throw new InterruptedException(e+"");}
+        }
+
         if (library.containsKey(book) && library.get(book) > 0){
             if (!clientsRentedBooks.containsKey(client)) {
                 Set<BookDescription> rentBooksList = new HashSet<>();
@@ -38,15 +52,18 @@ public class BooksManagerImpl implements BooksManager {
                 clientsRentedBooks.put(client, rentBooksList);
                 library.put(book, library.get(book) - 1);
                 rentBookToRentedBooks(client,book);
+                notify();
                 return true;
             }
             else if ( !getRentedBooks(client).contains(book) ) {
                 clientsRentedBooks.get(client).add(book);
                 library.put(book, library.get(book) - 1);
                 rentBookToRentedBooks(client,book);
+                notify();
                 return true;
             }
     }
+        notify();
         return false;
     }
 
@@ -59,7 +76,7 @@ public class BooksManagerImpl implements BooksManager {
     }
 
     @Override
-    public boolean returnBook(Client client, BookDescription book) {
+    public synchronized boolean returnBook(Client client, BookDescription book) {
         if(clientsRentedBooks.containsKey(client) && getRentedBooks(client).contains(book)){
             clientsRentedBooks.get(client).remove(book);
             rentedBooksClients.get(book).remove(client);
@@ -108,4 +125,6 @@ public class BooksManagerImpl implements BooksManager {
         }
         return result;
     }
+
+
 }
