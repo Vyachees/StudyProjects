@@ -3,41 +3,32 @@ package MyApp;
 public class MyApp {
 
     public static void main(String[] args) {
+/*
+*       50
+*   40       60
+* 30  45   55   70
+* */
+
+
+
 
     }
 
-    public static boolean isBalanced(String input) {
-        final int length = input.length();
+    static class Node {
+        final int key;
+        Node left, right;
 
-        if (length > 0) {
-            final char[] stack = new char[length];
-            int stackPos = 0;
-
-            final char[] inputChars = input.toCharArray();
-            for (int i = 0; i < length; i++) {
-                final char currentChar = inputChars[i];
-                switch (currentChar) {
-                    case '[':
-                    case '(':
-                        stack[stackPos++] = currentChar;
-                        break;
-                    case ']':
-                        if (stackPos <= 0 || stack[--stackPos] != '[') {
-                            return false;
-                        }
-                        break;
-                    case ')':
-                        if (stackPos <= 0 || stack[--stackPos] != '(') {
-                            return false;
-                        }
-                        break;
-                    default:
-                        break;
-                }
-            }
+        Node(int item) {
+            key = item;
+            left = right = null;
         }
-
-        return true;
     }
+
+    public static Node search(int key, Node root) {
+        if (root == null) return null;
+        if (key == root.key) return root;
+        return search(key, key > root.key ? root.right : root.left);
+    }
+
 
 }
