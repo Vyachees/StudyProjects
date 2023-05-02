@@ -10,7 +10,6 @@ class MyAppTest {
 
     @BeforeEach
     void init() {
-        System.out.println("init");
         myApp = new MyApp();
     }
 
