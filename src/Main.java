@@ -34,8 +34,6 @@ public class Main {
 
         System.out.println("-----------");
 
-
-        fileManage.createUsers(readedFile,camelTag);
         List<User> users = fileManage.createUsers(readedFile,camelTag);
 
         List <String> emails= fileManage.createEmails(users);

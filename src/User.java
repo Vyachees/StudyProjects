@@ -7,61 +7,6 @@ public class User {
     private final long buyCounts;
     private final String email;
 
-    public User(String name, String surname1, String surname2, String gender, String registration, String buyCounts, String email, int camelTag) {
-        this.name = clearStr(name, camelTag);
-        this.surname1 = clearStr(surname1, camelTag);
-        this.surname2 = clearStr(surname2, camelTag);
-        this.gender = clearGender(gender);
-        this.registration = clearRegistration(registration);
-        this.buyCounts = clearBuyCounts(buyCounts);
-        this.email = email;
-    }
-
-    public String clearStr(String str, int camelTag) {
-        str = str.replaceAll("[^A-Za-z\\p{L}0-9]", "")
-                .replaceAll("C", "С")
-                .replaceAll("P", "Р")
-                .replaceAll("H", "Н")
-                .replaceAll("c", "с")
-                .replaceAll("p", "р");
-        str = str.toUpperCase().charAt(0) + str.toLowerCase().substring(1);
-        if (camelTag == 1) {
-            str = camelCase(str);
-        }
-        return str;
-    }
-
-    public String camelCase(String str) {
-        for (int i = 2; i < str.length(); i++) {
-            if (i % 2 == 0) {
-                str = str.substring(0, i) + str.substring(i, i + 1).toUpperCase() + str.substring(i + 1);
-            }
-        }
-        return str;
-    }
-
-    public String clearGender(String str) {
-        if (str.equals("m") || str.equals("м")) {
-            return "мужской";
-        } else if (str.equals("f") || str.equals("ж")) {
-            return "женский";
-        }
-        return str;
-    }
-
-    public String clearRegistration(String str) {
-        if (str.indexOf("-") == 2) {
-            str = "20" + str;
-        }
-        return str;
-    }
-
-    public long clearBuyCounts(String str) {
-        float res = Float.parseFloat(str);
-        return (long) res;
-    }
-
-
     public String getName() {
         return name;
     }
@@ -88,6 +33,54 @@ public class User {
 
     public String getEmail() {
         return email;
+    }
+
+    public static class Builder {
+        private final String name;
+        private final String surname1;
+        private final String surname2;
+        private final String gender;
+        private final String registration;
+        private final long buyCounts;
+        private final String email;
+        private int camelTag = 0;
+
+        public Builder(String name, String surname1, String surname2, String gender, String registration, String buyCounts, String email) {
+            this.name = UserClearing.clearStr(name);
+            this.surname1 = UserClearing.clearStr(surname1);
+            this.surname2 = UserClearing.clearStr(surname2);
+            this.gender = UserClearing.clearGender(gender);
+            this.registration = UserClearing.clearRegistration(registration);
+            this.buyCounts = UserClearing.clearBuyCounts(buyCounts);
+            this.email = email;
+        }
+
+        public Builder setCamelTag(int camel) {
+            camelTag = camel;
+            return this;
+        }
+
+        public User build() {
+            return new User(this);
+        }
+
+    }
+
+    public User(Builder builder) {
+        if (builder.camelTag == 1) {
+            this.name = UserClearing.camelCase(builder.name);
+            this.surname1 = UserClearing.camelCase(builder.surname1);
+            this.surname2 = UserClearing.camelCase(builder.surname2);
+        } else {
+            this.name = builder.name;
+            this.surname1 = builder.surname1;
+            this.surname2 = builder.surname2;
+        }
+        this.gender = builder.gender;
+        this.registration = builder.registration;
+        this.buyCounts = builder.buyCounts;
+        this.email = builder.email;
+
     }
 
 }
