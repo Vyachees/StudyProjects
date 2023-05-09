@@ -1,6 +1,7 @@
 package factory.filesystem;
 
 import book.Book;
+import factory.ConnectionFactoryImpl;
 import factory.Reader;
 import factory.Writer;
 import org.junit.jupiter.api.Assertions;
@@ -9,14 +10,16 @@ import org.junit.jupiter.api.Test;
 
 import java.io.IOException;
 
+import static factory.ConnectionType.File;
+
 class FileSystemTest {
     Book book1;
     Book book2;
 
-    FileSystemConnectionFactory fileSystemConnectionFactory= new FileSystemConnectionFactory();
-    Writer writer = fileSystemConnectionFactory.getWriter();
+    ConnectionFactoryImpl connectionFactory = new ConnectionFactoryImpl();
+    Writer writer = connectionFactory.getWriter(File);
 
-    Reader reader = fileSystemConnectionFactory.getReader();
+    Reader reader = connectionFactory.getReader(File);
 
 
     @BeforeEach

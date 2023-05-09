@@ -4,6 +4,6 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 
 public interface ConnectionFactory {
-    Reader getReader() throws FileNotFoundException;
-    Writer getWriter() throws IOException;
+    Reader getReader(ConnectionType connectionType) throws FileNotFoundException;
+    Writer getWriter(ConnectionType connectionType) throws IOException;
 }

@@ -1,8 +1,10 @@
 import book.Book;
+import factory.ConnectionFactoryImpl;
 import factory.Reader;
 import factory.Writer;
-import factory.filesystem.FileSystemConnectionFactory;
 
+
+import static factory.ConnectionType.File;
 
 
 public class Main {
@@ -13,14 +15,14 @@ public class Main {
                 .setCreatedDate("2022-03-03")
                 .build();
 
-        FileSystemConnectionFactory fileSystemConnectionFactory = new FileSystemConnectionFactory();
-        Writer writer=  fileSystemConnectionFactory.getWriter();
+        ConnectionFactoryImpl connectionFactory = new ConnectionFactoryImpl();
+        Writer writer= connectionFactory.getWriter(File);
 
         writer.write(newBook);
 
         writer.write(newBook);
 
-        Reader reader = fileSystemConnectionFactory.getReader();
+        Reader reader = connectionFactory.getReader(File);
 
         reader.read();
 
