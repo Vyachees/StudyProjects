@@ -2,10 +2,11 @@ package app.subscriber;
 
 import app.Visitor;
 import app.observer.Folder;
+
 import java.util.HashMap;
 import java.util.Map;
 
-public class FileCountObserver  {
+public class FileCountObserver {
     private static final Map<Folder, FolderStatistic> folderStatMap = new HashMap<>();
 
     public static void update(Folder folder) {
