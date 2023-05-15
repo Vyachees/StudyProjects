@@ -1,30 +1,49 @@
-import book.Book;
-import factory.ConnectionFactoryImpl;
-import factory.Reader;
-import factory.Writer;
-
-
-import static factory.ConnectionType.File;
-
+import app.observer.File;
+import app.observer.Folder;
+import app.subscriber.FileCountObserver;
 
 public class Main {
-    public static void main(String[] args){
+    public static void main(String[] args) {
 
-        Book newBook = new Book.Builder("MyTestBook1","Gus Gusev")
-                .setPages(200)
-                .setCreatedDate("2022-03-03")
-                .build();
+        FileCountObserver fileCountObserver = new FileCountObserver();
 
-        ConnectionFactoryImpl connectionFactory = new ConnectionFactoryImpl();
-        Writer writer= connectionFactory.getWriter(File);
+        Folder parentFolder = new Folder("parentFolder", null);
 
-        writer.write(newBook);
+        Folder folder1 = new Folder("folder1", parentFolder);
+        Folder folder2 = new Folder("folder2", parentFolder);
+        Folder folder3 = new Folder("folder3", folder1);
+        Folder folder4 = new Folder("folder4", folder1);
+        Folder folder5 = new Folder("folder5", folder4);
+        Folder folder6 = new Folder("folder6", folder4);
+        Folder folder7 = new Folder("folder7", folder4);
 
-        writer.write(newBook);
+        File file1 = new File("File1", 100);
+        File file2 = new File("File2", 200);
+        File file3 = new File("File3", 300);
+        File file4 = new File("File4", 400);
+        File file5 = new File("File5", 400);
 
-        Reader reader = connectionFactory.getReader(File);
+        parentFolder.addChildren(folder1);
+        parentFolder.addChildren(folder2);
 
-        reader.read();
+        folder1.addFiles(file1);
+        folder1.addFiles(file2);
+        folder1.addChildren(folder3);
+        folder1.addChildren(folder4);
+
+
+        folder4.addFiles(file3);
+        folder4.addFiles(file4);
+        folder4.addFiles(file5);
+        folder4.addChildren(folder5);
+        folder4.addChildren(folder6);
+        folder4.addChildren(folder7);
+
+
+        System.out.println(fileCountObserver.getFolderStatMap().get(folder4).getFileCountPerFolder());
+        System.out.println(fileCountObserver.getFolderStatMap().get(folder4).getFileSizePerFolder());
+
+        System.out.println(fileCountObserver.getFolderStatMap());
 
     }
 }
